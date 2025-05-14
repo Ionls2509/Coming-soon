@@ -1,44 +1,69 @@
-body {
+body, html {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Arial, sans-serif;
+}
+
+.overlay {
+  background: url('TUO_NOME_IMMAGINE.jpg') no-repeat center center/cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2rem;
+  border-radius: 1rem;
   text-align: center;
-  background-color: #f9f9f9;
+  max-width: 500px;
 }
 
-.hero {
-  padding: 100px 20px;
-  background-color: #e0f7fa;
+#countdown {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
 }
 
-.btn-primary, .btn-secondary, button {
-  background-color: #0073e6;
-  color: white;
-  padding: 15px 30px;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 5px;
-  margin: 20px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+#countdown div {
+  text-align: center;
+  flex: 1;
 }
 
-.btn-secondary {
-  background-color: #555;
+form {
+  margin-top: 1rem;
 }
 
-.donazioni {
-  padding: 60px 20px;
-  background-color: #fff;
-}
-
-.bonifico {
-  margin-top: 40px;
+input[type="email"] {
+  padding: 0.5rem;
+  width: 70%;
+  border-radius: 0.5rem;
   border: 1px solid #ccc;
-  padding: 20px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #f1f1f1;
 }
-Aggiunto file style.css
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #007BFF;
+  color: white;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.confirmation {
+  margin-top: 1rem;
+  color: green;
+}
