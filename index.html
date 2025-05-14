@@ -4,11 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Healthcircle - Coming Soon</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .hero {
+      padding: 80px 20px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .btn-primary, .btn-secondary {
+      background-color: #fff;
+      color: #0072ff;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .btn-primary:hover, .btn-secondary:hover {
+      background-color: #e0e0e0;
+    }
+
+    .donazioni {
+      padding: 50px 20px;
+      background-color: #ffffff;
+    }
+
+    .donazioni h2 {
+      color: #0072ff;
+      margin-bottom: 20px;
+    }
+
+    form button {
+      background-color: #ffc439;
+      color: #111;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #e6b800;
+    }
+
+    .bonifico {
+      margin-top: 40px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      border-radius: 8px;
+      display: inline-block;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    footer {
+      padding: 20px;
+      background-color: #0072ff;
+    }
+
+    footer .btn-secondary {
+      background-color: white;
+      color: #0072ff;
+    }
+
+    footer .btn-secondary:hover {
+      background-color: #e0e0e0;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
+
   <section class="hero">
-    <h1>Comming Soon Healthcircles</h1>
+    <h1>Coming Soon: Healthcircle</h1>
     <p>Unisciti ai nostri Super Sostenitori e aiutaci a costruire qualcosa di straordinario!</p>
     <a href="#donate" class="btn-primary">Diventa Super Sostenitore</a>
   </section>
@@ -23,9 +125,9 @@
     <div class="bonifico">
       <h3>Preferisci il bonifico?</h3>
       <p>
-        IBAN: IT00X0000000000000000000000<br>
-        BIC/SWIFT: ABCDITMMXXX<br>
-        Causale: Super Sostenitore Healthcircle – [Tuo Nome]
+        <strong>IBAN:</strong> IT00X0000000000000000000000<br>
+        <strong>BIC/SWIFT:</strong> ABCDITMMXXX<br>
+        <strong>Causale:</strong> Super Sostenitore Healthcircle – [Tuo Nome]
       </p>
     </div>
   </section>
@@ -33,5 +135,6 @@
   <footer>
     <a href="#donate" class="btn-secondary">Diventa Super Sostenitore</a>
   </footer>
+
 </body>
 </html>
