@@ -4,27 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coming Soon</title>
-  <style>
-    body {
-      background: #fff;
-      color: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-    }
-    .coming-soon {
-      font-size: 2.5rem;
-      font-weight: 600;
-      letter-spacing: 2px;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 0.5em;
-    }
-  </style>
+  <meta name="description" content="Healthcircle - Stiamo arrivando il 1° settembre 2025. Iscriviti per ricevere aggiornamenti.">
+  <meta name="robots" content="index, follow">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="coming-soon">Coming Soon</div>
+  <div class="overlay"></div>
+  <main>
+    <h1 class="coming-soon">Coming Soon</h1>
+    <div class="launch-date">Lancio previsto: <strong>1 settembre 2025</strong></div>
+    <div class="countdown" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number" id="days">0</div>
+        <div class="countdown-label">Giorni</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="hours">0</div>
+        <div class="countdown-label">Ore</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="minutes">0</div>
+        <div class="countdown-label">Minuti</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number" id="seconds">0</div>
+        <div class="countdown-label">Secondi</div>
+      </div>
+    </div>
+    <div class="email-section">
+      <h2>Resta aggiornato!</h2>
+      <form class="email-form" id="emailForm" action="https://formspree.io/f/mnqewqzv" method="POST" autocomplete="off">
+        <label for="emailInput">Indirizzo email</label>
+        <input type="email" name="email" id="emailInput" placeholder="Inserisci la tua email" required aria-label="Indirizzo email">
+        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+        <button type="submit">Iscriviti</button>
+        <div class="email-success" id="emailSuccess" style="display:none;">Grazie per l'iscrizione!</div>
+        <div class="email-error" id="emailError"></div>
+      </form>
+    </div>
+    <div class="donate-section">
+      <h2>Sostieni il progetto</h2>
+      <a class="paypal-btn" href="https://www.paypal.com/donate" target="_blank" rel="noopener">Dona con PayPal</a>
+      <div class="bank-details">
+        <strong>Bonifico Bancario:</strong><br>
+        IBAN: IT00A0000000000000000000000<br>
+        Intestato a: Nome Cognome<br>
+        Causale: Donazione Coming Soon
+      </div>
+    </div>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
