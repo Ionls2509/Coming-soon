@@ -2,42 +2,29 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Healthcircle - Coming Soon</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
+  <style>
+    body {
+      background: #fff;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .coming-soon {
+      font-size: 2.5rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.5em;
+    }
+  </style>
 </head>
 <body>
-  <div class="language-selector">
-    <label for="lang">Lingua:</label>
-    <select id="lang">
-      <option value="it">🇮🇹 Italiano</option>
-      <option value="en">🇬🇧 English</option>
-      <option value="fr">🇫🇷 Français</option>
-    </select>
-  </div>
-
-  <div class="overlay">
-    <div class="content">
-      <h2 data-i18n="coming">Sta Arrivando</h2>
-      <h1>Healthcircle</h1>
-      <p data-i18n="launch">Preparati al lancio ufficiale il <strong>1 Settembre 2025</strong></p>
-
-      <div id="countdown">
-        <div><span id="days">000</span><small data-i18n="days">Giorni</small></div>
-        <div><span id="hours">00</span><small data-i18n="hours">Ore</small></div>
-        <div><span id="minutes">00</span><small data-i18n="minutes">Minuti</small></div>
-        <div><span id="seconds">00</span><small data-i18n="seconds">Secondi</small></div>
-      </div>
-
-      <form id="subscribe-form">
-        <input type="email" id="email" placeholder="Inserisci la tua email" required />
-        <button type="submit" data-i18n="subscribe">Iscriviti</button>
-      </form>
-
-      <p class="confirmation" id="confirmation-message"></p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <div class="coming-soon">Coming Soon</div>
 </body>
 </html>
