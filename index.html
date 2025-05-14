@@ -2,139 +2,42 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Healthcircle - Coming Soon</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
-      background: #f5f7fa;
-      color: #333;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    .hero {
-      padding: 80px 20px;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-    }
-
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-    }
-
-    .btn-primary, .btn-secondary {
-      background-color: #fff;
-      color: #0072ff;
-      padding: 15px 30px;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-      display: inline-block;
-      margin: 10px;
-    }
-
-    .btn-primary:hover, .btn-secondary:hover {
-      background-color: #e0e0e0;
-    }
-
-    .donazioni {
-      padding: 50px 20px;
-      background-color: #ffffff;
-    }
-
-    .donazioni h2 {
-      color: #0072ff;
-      margin-bottom: 20px;
-    }
-
-    form button {
-      background-color: #ffc439;
-      color: #111;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    form button:hover {
-      background-color: #e6b800;
-    }
-
-    .bonifico {
-      margin-top: 40px;
-      background-color: #f2f2f2;
-      padding: 20px;
-      border-radius: 8px;
-      display: inline-block;
-      text-align: left;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    footer {
-      padding: 20px;
-      background-color: #0072ff;
-    }
-
-    footer .btn-secondary {
-      background-color: white;
-      color: #0072ff;
-    }
-
-    footer .btn-secondary:hover {
-      background-color: #e0e0e0;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="language-selector">
+    <label for="lang">Lingua:</label>
+    <select id="lang">
+      <option value="it">🇮🇹 Italiano</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="fr">🇫🇷 Français</option>
+    </select>
+  </div>
 
-  <section class="hero">
-    <h1>Coming Soon: Healthcircle</h1>
-    <p>Unisciti ai nostri Super Sostenitori e aiutaci a costruire qualcosa di straordinario!</p>
-    <a href="#donate" class="btn-primary">Diventa Super Sostenitore</a>
-  </section>
+  <div class="overlay">
+    <div class="content">
+      <h2 data-i18n="coming">Sta Arrivando</h2>
+      <h1>Healthcircle</h1>
+      <p data-i18n="launch">Preparati al lancio ufficiale il <strong>1 Settembre 2025</strong></p>
 
-  <section id="donate" class="donazioni">
-    <h2>Sostienici con PayPal</h2>
-    <form action="https://www.paypal.com/donate" method="post" target="_blank">
-      <input type="hidden" name="hosted_button_id" value="TUO_ID_PAYPAL">
-      <button type="submit">Dona 1000€</button>
-    </form>
+      <div id="countdown">
+        <div><span id="days">000</span><small data-i18n="days">Giorni</small></div>
+        <div><span id="hours">00</span><small data-i18n="hours">Ore</small></div>
+        <div><span id="minutes">00</span><small data-i18n="minutes">Minuti</small></div>
+        <div><span id="seconds">00</span><small data-i18n="seconds">Secondi</small></div>
+      </div>
 
-    <div class="bonifico">
-      <h3>Preferisci il bonifico?</h3>
-      <p>
-        <strong>IBAN:</strong> IT00X0000000000000000000000<br>
-        <strong>BIC/SWIFT:</strong> ABCDITMMXXX<br>
-        <strong>Causale:</strong> Super Sostenitore Healthcircle – [Tuo Nome]
-      </p>
+      <form id="subscribe-form">
+        <input type="email" id="email" placeholder="Inserisci la tua email" required />
+        <button type="submit" data-i18n="subscribe">Iscriviti</button>
+      </form>
+
+      <p class="confirmation" id="confirmation-message"></p>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <a href="#donate" class="btn-secondary">Diventa Super Sostenitore</a>
-  </footer>
-
+  <script src="script.js"></script>
 </body>
 </html>
