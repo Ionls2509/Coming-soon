@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.hero {
+  padding: 100px 20px;
+  background-color: #e0f7fa;
+}
+
+.btn-primary, .btn-secondary, button {
+  background-color: #0073e6;
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 5px;
+  margin: 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #555;
+}
+
+.donazioni {
+  padding: 60px 20px;
+  background-color: #fff;
+}
+
+.bonifico {
+  margin-top: 40px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f1f1f1;
+}
+Aggiunto file style.css
