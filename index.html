@@ -1,204 +1,150 @@
-body {
-  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color: #222;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  position: relative;
-}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      min-width: 100vw;
+      box-sizing: border-box;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .container {
+      background: rgba(255,255,255,0.75);
+      border-radius: 18px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #222;
+      letter-spacing: 2px;
+    }
+    .payments {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .paypal-btn {
+      background: #0070ba;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 2.2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .paypal-btn:hover {
+      background: #005c99;
+    }
+    .iban-box {
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.05rem;
+      color: #333;
+      word-break: break-all;
+      user-select: all;
+    }
+    .lang-switch {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      padding: 0.3rem 1.1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #333;
+      transition: background 0.2s, border 0.2s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: #e0e0e0;
+      border-color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="main-title">Coming Soon</h1>
+    <div class="payments">
+      <a id="paypal-link" class="paypal-btn" href="https://www.paypal.com/paypalme/tuonome" target="_blank" rel="noopener">Dona con PayPal</a>
+      <div class="iban-box">
+        <span id="iban-label">IBAN:</span> <span id="iban-value">IT00A0000000000000000000000</span>
+      </div>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="btn-it">IT</button>
+      <button class="lang-btn" id="btn-en">EN</button>
+    </div>
+  </div>
+  <script>
+    // Personalizza qui il tuo IBAN e il link PayPal
+    const IBAN = 'IT00A0000000000000000000000'; // Sostituisci con il tuo IBAN
+    const PAYPAL_LINK = 'https://www.paypal.com/paypalme/tuonome'; // Sostituisci con il tuo link PayPal
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(255,255,255,0.85);
-  z-index: 1;
-  transition: background 0.3s;
-}
+    // Testi in italiano e inglese
+    const texts = {
+      it: {
+        title: 'Coming Soon',
+        paypal: 'Dona con PayPal',
+        iban: 'IBAN:'
+      },
+      en: {
+        title: 'Coming Soon',
+        paypal: 'Donate with PayPal',
+        iban: 'IBAN:'
+      }
+    };
 
-main {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    // Elementi
+    const mainTitle = document.getElementById('main-title');
+    const paypalLink = document.getElementById('paypal-link');
+    const ibanLabel = document.getElementById('iban-label');
+    const ibanValue = document.getElementById('iban-value');
+    const btnIt = document.getElementById('btn-it');
+    const btnEn = document.getElementById('btn-en');
 
-.coming-soon {
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 0.5em;
-  margin-bottom: 1em;
-  background: none;
-}
+    // Imposta valori iniziali
+    paypalLink.href = PAYPAL_LINK;
+    ibanValue.textContent = IBAN;
 
-.launch-date {
-  font-size: 1.3rem;
-  color: #444;
-  margin-bottom: 1em;
-}
+    // Funzione cambio lingua
+    function setLang(lang) {
+      mainTitle.textContent = texts[lang].title;
+      paypalLink.textContent = texts[lang].paypal;
+      ibanLabel.textContent = texts[lang].iban;
+      btnIt.classList.toggle('active', lang === 'it');
+      btnEn.classList.toggle('active', lang === 'en');
+    }
 
-.countdown {
-  display: flex;
-  gap: 1.5em;
-  margin-bottom: 2em;
-}
-
-.countdown-item {
-  text-align: center;
-}
-
-.countdown-number {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #5a0000;
-  transition: transform 0.2s, opacity 0.2s;
-  opacity: 1;
-}
-
-.countdown-number.fade {
-  opacity: 0.3;
-  transform: scale(1.2);
-}
-
-.countdown-label {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.email-section {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 1.5em 2em;
-  text-align: center;
-  margin-top: 1em;
-  margin-bottom: 2em;
-  width: 100%;
-  max-width: 350px;
-}
-
-.email-section h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.7em;
-  color: #5a0000;
-}
-
-.email-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7em;
-}
-
-.email-form label {
-  text-align: left;
-  font-size: 0.98rem;
-  color: #333;
-  margin-bottom: 0.2em;
-}
-
-.email-form input[type="email"] {
-  padding: 0.7em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.email-form button {
-  padding: 0.7em;
-  background: #5a0000;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.email-form button:hover {
-  background: #7a2222;
-}
-
-.email-success {
-  color: #228B22;
-  font-size: 1rem;
-  margin-top: 0.5em;
-}
-
-.email-error {
-  color: #b30000;
-  font-size: 1rem;
-  margin-top: 0.5em;
-  display: none;
-}
-
-.honeypot {
-  display: none;
-}
-
-.donate-section {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 1.5em 2em;
-  text-align: center;
-  margin-top: 2em;
-}
-
-.donate-section h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.7em;
-  color: #5a0000;
-}
-
-.paypal-btn {
-  display: inline-block;
-  margin: 0.5em 0;
-  padding: 0.7em 1.5em;
-  background: #ffc439;
-  color: #222;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.paypal-btn:hover {
-  background: #ffb347;
-}
-
-.bank-details {
-  margin-top: 1em;
-  font-size: 0.98rem;
-  color: #333;
-  word-break: break-all;
-}
-
-@media (max-width: 600px) {
-  .donate-section, .email-section {
-    padding: 1em 0.5em;
-  }
-  .coming-soon {
-    font-size: 1.5rem;
-  }
-  .countdown {
-    gap: 0.7em;
-  }
-  .overlay {
-    background: rgba(255,255,255,0.95);
-  }
-}
-
+    btnIt.addEventListener('click', () => setLang('it'));
+    btnEn.addEventListener('click', () => setLang('en'));
+  </script>
+</body>
+</html> 
