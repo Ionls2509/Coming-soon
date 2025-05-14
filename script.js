@@ -1,71 +1,72 @@
-const countdownDate = new Date("2025-09-01T00:00:00").getTime();
-setInterval(() => {
-  const now = new Date().getTime();
-  const distance = countdownDate - now;
+const launchDate = new Date('2025-09-01T00:00:00+02:00').getTime();
 
-  document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-  document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
-}, 1000);
-
-// Email handling
-document.getElementById("subscribe-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  console.log("Email ricevuta:", email);  // sostituibile con salvataggio reale
-  const msg = document.getElementById("confirmation-message");
-  msg.innerText = translations[currentLang].thanks;
-  document.getElementById("email").value = "";
-});
-
-// Traduzioni
-const translations = {
-  it: {
-    coming: "Sta Arrivando",
-    launch: "Preparati al lancio ufficiale il <strong>1 Settembre 2025</strong>",
-    days: "Giorni",
-    hours: "Ore",
-    minutes: "Minuti",
-    seconds: "Secondi",
-    subscribe: "Iscriviti",
-    thanks: "Grazie per esserti iscritto!"
-  },
-  en: {
-    coming: "Coming Soon",
-    launch: "Get ready for the official launch on <strong>September 1st, 2025</strong>",
-    days: "Days",
-    hours: "Hours",
-    minutes: "Minutes",
-    seconds: "Seconds",
-    subscribe: "Subscribe",
-    thanks: "Thanks for subscribing!"
-  },
-  fr: {
-    coming: "Bientôt Disponible",
-    launch: "Préparez-vous au lancement officiel le <strong>1er septembre 2025</strong>",
-    days: "Jours",
-    hours: "Heures",
-    minutes: "Minutes",
-    seconds: "Secondes",
-    subscribe: "S'inscrire",
-    thanks: "Merci pour votre inscription !"
+function animateNumber(id, newValue) {
+  const el = document.getElementById(id);
+  if (el.textContent != newValue) {
+    el.classList.add('fade');
+    setTimeout(() => {
+      el.textContent = newValue;
+      el.classList.remove('fade');
+    }, 150);
   }
-};
-
-let currentLang = "it";
-
-function updateLanguage(lang) {
-  currentLang = lang;
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    el.innerHTML = translations[lang][key];
-  });
 }
 
-document.getElementById("lang").addEventListener("change", (e) => {
-  updateLanguage(e.target.value);
-});
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = launchDate - now;
 
-// Applica lingua iniziale
-updateLanguage(currentLang);
+  if (distance < 0) {
+    document.getElementById('countdown').innerHTML = '<span style="color:#5a0000;font-size:1.2rem;">Lanciato!</span>';
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  animateNumber('days', days);
+  animateNumber('hours', hours);
+  animateNumber('minutes', minutes);
+  animateNumber('seconds', seconds);
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Email form handling
+document.getElementById('emailForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const emailError = document.getElementById('emailError');
+  emailError.style.display = 'none';
+  emailError.textContent = '';
+
+  if (form.website && form.website.value) {
+    return;
+  }
+
+  const data = new FormData(form);
+  fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: {
+      'Accept': 'application/json'
+    }
+  }).then(response => {
+    if (response.ok) {
+      document.getElementById('emailSuccess').style.display = 'block';
+      form.querySelector('button').style.display = 'none';
+      form.querySelector('input[type="email"]').style.display = 'none';
+      form.reset();
+    } else {
+      response.json().then(data => {
+        emailError.style.display = 'block';
+        emailError.textContent = data.error || "Errore nell'invio.";
+      });
+    }
+  }).catch(() => {
+    emailError.style.display = 'block';
+    emailError.textContent = 'Errore di connessione.';
+  });
+});
