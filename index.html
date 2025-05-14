@@ -24,16 +24,35 @@
       background: #4da6ff;
       color: #fff;
       border: none;
-      padding: 12px 24px;
-      border-radius: 25px;
-      font-size: 1rem;
+      padding: 20px 40px;
+      border-radius: 30px;
+      font-size: 1.3rem;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       transition: background 0.2s;
       text-decoration: none;
+      font-weight: bold;
+      z-index: 2;
     }
     .donate-btn:hover {
       background: #357ab8;
+    }
+    .iban-box {
+      display: none;
+      position: absolute;
+      top: 80px;
+      right: 30px;
+      background: #222b3a;
+      color: #fff;
+      padding: 18px 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      font-size: 1.1rem;
+      z-index: 3;
+      min-width: 320px;
+    }
+    .iban-box strong {
+      color: #4da6ff;
     }
     .container {
       text-align: center;
@@ -58,7 +77,7 @@
       overflow: hidden;
     }
     .progress-bar {
-      width: 60%; /* Cambia la percentuale a piacere */
+      width: 0%;
       height: 100%;
       background: #4da6ff;
       border-radius: 5px 0 0 5px;
@@ -72,7 +91,7 @@
       font-size: 0.9rem;
       color: #b0b0b0;
     }
-    .notify-btn {
+    .notify-btn, .submit-btn {
       background: #4da6ff;
       color: #fff;
       border: none;
@@ -83,8 +102,23 @@
       margin-top: 10px;
       transition: background 0.2s;
     }
-    .notify-btn:hover {
+    .notify-btn:hover, .submit-btn:hover {
       background: #357ab8;
+    }
+    .notify-form {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+      gap: 10px;
+    }
+    .notify-form input[type="email"] {
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+      width: 220px;
     }
     .footer {
       position: absolute;
@@ -94,24 +128,83 @@
       color: #b0b0b0;
       font-size: 0.9rem;
     }
+    @media (max-width: 500px) {
+      .progress-bar-bg, .progress-labels { width: 90vw; }
+      .iban-box { min-width: 200px; }
+    }
   </style>
 </head>
 <body>
-  <a href="https://www.paypal.com/donate" class="donate-btn" target="_blank">Dona Ora</a>
+  <button class="donate-btn" id="donateBtn">💙 Dona Ora</button>
+  <div class="iban-box" id="ibanBox">
+    <div><strong>IBAN:</strong> IT60X0542811101000000123456</div>
+    <div>Intestato a: Nome Cognome</div>
+    <div>Banca: Nome Banca</div>
+    <div style="margin-top:8px;">
+      <a href="https://www.paypal.com/donate" target="_blank" style="color:#4da6ff;text-decoration:underline;">Oppure dona con PayPal</a>
+    </div>
+  </div>
   <div class="container">
     <h1>UNDER CONSTRUCTION</h1>
     <div class="subtitle">SITE NEARLY READY</div>
     <div class="progress-bar-bg">
-      <div class="progress-bar"></div>
+      <div class="progress-bar" id="progressBar"></div>
     </div>
     <div class="progress-labels">
-      <span>0%</span>
-      <span>100%</span>
+      <span id="progressStart">0%</span>
+      <span id="progressEnd">100%</span>
     </div>
-    <button class="notify-btn">Notify Me!</button>
+    <button class="notify-btn" id="notifyBtn">Notify Me!</button>
+    <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert('Grazie! Ti avviseremo via email.'); this.reset(); this.style.display='none';">
+      <input type="email" placeholder="Inserisci la tua email" required>
+      <button class="submit-btn" type="submit">Invia</button>
+    </form>
   </div>
   <div class="footer">
     &copy; 2024 - Sito in costruzione.
   </div>
+  <script>
+    // Barra di caricamento dinamica
+    let progress = 0;
+    const target = 73;
+    const progressBar = document.getElementById('progressBar');
+    const progressStart = document.getElementById('progressStart');
+    function animateProgress() {
+      if (progress < target) {
+        progress++;
+        progressBar.style.width = progress + '%';
+        progressStart.textContent = progress + '%';
+        setTimeout(animateProgress, 25);
+      } else {
+        progressBar.style.width = target + '%';
+        progressStart.textContent = target + '%';
+      }
+    }
+    animateProgress();
+
+    // Notify Me form
+    const notifyBtn = document.getElementById('notifyBtn');
+    const notifyForm = document.getElementById('notifyForm');
+    notifyBtn.onclick = () => {
+      notifyForm.style.display = 'flex';
+      notifyBtn.style.display = 'none';
+    };
+
+    // Dona Ora - mostra IBAN
+    const donateBtn = document.getElementById('donateBtn');
+    const ibanBox = document.getElementById('ibanBox');
+    let ibanVisible = false;
+    donateBtn.onclick = () => {
+      ibanVisible = !ibanVisible;
+      ibanBox.style.display = ibanVisible ? 'block' : 'none';
+    };
+    // Chiudi IBAN cliccando fuori
+    document.addEventListener('click', function(e) {
+      if (!donateBtn.contains(e.target) && !ibanBox.contains(e.target)) {
+        ibanBox.style.display = 'none';
+        ibanVisible = false;
+      }
+    });
+  </script>
 </body>
 </html>
