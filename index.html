@@ -2,209 +2,149 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Coming Soon - Under Construction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
+    }
+    body {
       min-height: 100vh;
-      background: linear-gradient(rgba(30, 30, 40, 0.8), rgba(30, 30, 40, 0.8)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
-      color: #fff;
-      font-family: 'Montserrat', Arial, sans-serif;
+      min-width: 100vw;
+      box-sizing: border-box;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      position: relative;
-    }
-    .donate-btn {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      background: #4da6ff;
-      color: #fff;
-      border: none;
-      padding: 20px 40px;
-      border-radius: 30px;
-      font-size: 1.3rem;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      transition: background 0.2s;
-      text-decoration: none;
-      font-weight: bold;
-      z-index: 2;
-    }
-    .donate-btn:hover {
-      background: #357ab8;
-    }
-    .iban-box {
-      display: none;
-      position: absolute;
-      top: 80px;
-      right: 30px;
-      background: #222b3a;
-      color: #fff;
-      padding: 18px 24px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      font-size: 1.1rem;
-      z-index: 3;
-      min-width: 320px;
-    }
-    .iban-box strong {
-      color: #4da6ff;
+      justify-content: center;
+      font-family: 'Inter', Arial, sans-serif;
     }
     .container {
+      background: rgba(255,255,255,0.75);
+      border-radius: 18px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
       text-align: center;
-      margin-top: 80px;
+      min-width: 320px;
+      max-width: 90vw;
     }
     h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #222;
       letter-spacing: 2px;
-      margin-bottom: 10px;
     }
-    .subtitle {
-      letter-spacing: 3px;
-      color: #b0b0b0;
-      margin-bottom: 30px;
-    }
-    .progress-bar-bg {
-      width: 350px;
-      height: 10px;
-      background: #333a4d;
-      border-radius: 5px;
-      margin: 0 auto 10px auto;
-      overflow: hidden;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: #4da6ff;
-      border-radius: 5px 0 0 5px;
-      transition: width 1s;
-    }
-    .progress-labels {
+    .payments {
       display: flex;
-      justify-content: space-between;
-      width: 350px;
-      margin: 0 auto 20px auto;
-      font-size: 0.9rem;
-      color: #b0b0b0;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
     }
-    .notify-btn, .submit-btn {
-      background: #4da6ff;
+    .paypal-btn {
+      background: #0070ba;
       color: #fff;
       border: none;
-      padding: 12px 32px;
-      border-radius: 25px;
+      border-radius: 6px;
+      padding: 0.8rem 2.2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .paypal-btn:hover {
+      background: #005c99;
+    }
+    .iban-box {
+      background: #f5f5f5;
+      border-radius: 6px;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.05rem;
+      color: #333;
+      word-break: break-all;
+      user-select: all;
+    }
+    .lang-switch {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      padding: 0.3rem 1.1rem;
       font-size: 1rem;
       cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
+      color: #333;
+      transition: background 0.2s, border 0.2s;
     }
-    .notify-btn:hover, .submit-btn:hover {
-      background: #357ab8;
-    }
-    .notify-form {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 15px;
-      gap: 10px;
-    }
-    .notify-form input[type="email"] {
-      padding: 10px 18px;
-      border-radius: 20px;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-      width: 220px;
-    }
-    .footer {
-      position: absolute;
-      bottom: 30px;
-      width: 100%;
-      text-align: center;
-      color: #b0b0b0;
-      font-size: 0.9rem;
-    }
-    @media (max-width: 500px) {
-      .progress-bar-bg, .progress-labels { width: 90vw; }
-      .iban-box { min-width: 200px; }
+    .lang-btn.active, .lang-btn:hover {
+      background: #e0e0e0;
+      border-color: #888;
     }
   </style>
 </head>
 <body>
-  <button class="donate-btn" id="donateBtn">💙 Dona Ora</button>
-  <div class="iban-box" id="ibanBox">
-    <div><strong>IBAN:</strong> IT60X0542811101000000123456</div>
-    <div>Intestato a: Nome Cognome</div>
-    <div>Banca: Nome Banca</div>
-    <div style="margin-top:8px;">
-      <a href="https://www.paypal.com/donate" target="_blank" style="color:#4da6ff;text-decoration:underline;">Oppure dona con PayPal</a>
-    </div>
-  </div>
   <div class="container">
-    <h1>UNDER CONSTRUCTION</h1>
-    <div class="subtitle">SITE NEARLY READY</div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar" id="progressBar"></div>
+    <h1 id="main-title">Coming Soon</h1>
+    <div class="payments">
+      <a id="paypal-link" class="paypal-btn" href="https://www.paypal.com/paypalme/tuonome" target="_blank" rel="noopener">Dona con PayPal</a>
+      <div class="iban-box">
+        <span id="iban-label">IBAN:</span> <span id="iban-value">IT00A0000000000000000000000</span>
+      </div>
     </div>
-    <div class="progress-labels">
-      <span id="progressStart">0%</span>
-      <span id="progressEnd">100%</span>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="btn-it">IT</button>
+      <button class="lang-btn" id="btn-en">EN</button>
     </div>
-    <button class="notify-btn" id="notifyBtn">Notify Me!</button>
-    <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert('Grazie! Ti avviseremo via email.'); this.reset(); this.style.display='none';">
-      <input type="email" placeholder="Inserisci la tua email" required>
-      <button class="submit-btn" type="submit">Invia</button>
-    </form>
-  </div>
-  <div class="footer">
-    &copy; 2024 - Sito in costruzione.
   </div>
   <script>
-    // Barra di caricamento dinamica
-    let progress = 0;
-    const target = 73;
-    const progressBar = document.getElementById('progressBar');
-    const progressStart = document.getElementById('progressStart');
-    function animateProgress() {
-      if (progress < target) {
-        progress++;
-        progressBar.style.width = progress + '%';
-        progressStart.textContent = progress + '%';
-        setTimeout(animateProgress, 25);
-      } else {
-        progressBar.style.width = target + '%';
-        progressStart.textContent = target + '%';
+    // Personalizza qui il tuo IBAN e il link PayPal
+    const IBAN = 'IT00A0000000000000000000000'; // Sostituisci con il tuo IBAN
+    const PAYPAL_LINK = 'https://www.paypal.com/paypalme/tuonome'; // Sostituisci con il tuo link PayPal
+
+    // Testi in italiano e inglese
+    const texts = {
+      it: {
+        title: 'Coming Soon',
+        paypal: 'Dona con PayPal',
+        iban: 'IBAN:'
+      },
+      en: {
+        title: 'Coming Soon',
+        paypal: 'Donate with PayPal',
+        iban: 'IBAN:'
       }
+    };
+
+    // Elementi
+    const mainTitle = document.getElementById('main-title');
+    const paypalLink = document.getElementById('paypal-link');
+    const ibanLabel = document.getElementById('iban-label');
+    const ibanValue = document.getElementById('iban-value');
+    const btnIt = document.getElementById('btn-it');
+    const btnEn = document.getElementById('btn-en');
+
+    // Imposta valori iniziali
+    paypalLink.href = PAYPAL_LINK;
+    ibanValue.textContent = IBAN;
+
+    // Funzione cambio lingua
+    function setLang(lang) {
+      mainTitle.textContent = texts[lang].title;
+      paypalLink.textContent = texts[lang].paypal;
+      ibanLabel.textContent = texts[lang].iban;
+      btnIt.classList.toggle('active', lang === 'it');
+      btnEn.classList.toggle('active', lang === 'en');
     }
-    animateProgress();
 
-    // Notify Me form
-    const notifyBtn = document.getElementById('notifyBtn');
-    const notifyForm = document.getElementById('notifyForm');
-    notifyBtn.onclick = () => {
-      notifyForm.style.display = 'flex';
-      notifyBtn.style.display = 'none';
-    };
-
-    // Dona Ora - mostra IBAN
-    const donateBtn = document.getElementById('donateBtn');
-    const ibanBox = document.getElementById('ibanBox');
-    let ibanVisible = false;
-    donateBtn.onclick = () => {
-      ibanVisible = !ibanVisible;
-      ibanBox.style.display = ibanVisible ? 'block' : 'none';
-    };
-    // Chiudi IBAN cliccando fuori
-    document.addEventListener('click', function(e) {
-      if (!donateBtn.contains(e.target) && !ibanBox.contains(e.target)) {
-        ibanBox.style.display = 'none';
-        ibanVisible = false;
-      }
-    });
+    btnIt.addEventListener('click', () => setLang('it'));
+    btnEn.addEventListener('click', () => setLang('en'));
   </script>
 </body>
-</html>
+</html> 
