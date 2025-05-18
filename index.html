@@ -47,11 +47,11 @@
     .iban-box {
       background: #222b3a;
       color: #fff;
-      padding: 18px 24px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      font-size: 1.1rem;
-      min-width: 320px;
+      font-size: 0.95rem;
+      min-width: 200px;
       margin-top: 0;
       text-align: left;
     }
@@ -155,7 +155,7 @@
     }
     @media (max-width: 500px) {
       .progress-bar-bg, .progress-labels { width: 90vw; }
-      .iban-box { min-width: 200px; }
+      .iban-box { min-width: 120px; font-size: 0.9rem; }
       .donate-btn { font-size: 1.2rem; padding: 18px 24px; }
       .lang-btn { font-size: 1rem; padding: 8px 16px; }
       .donate-section { right: 10px; top: 10px; }
@@ -170,15 +170,15 @@
   <div class="donate-section">
     <a class="donate-btn" id="donateBtn" href="https://www.paypal.com/donate" target="_blank">💙 Dona Ora</a>
     <div class="iban-box" id="ibanBox">
-      <div><strong>IBAN:</strong> <span id="ibanValue">IT60X0542811101000000123456</span></div>
+      <div><strong id="ibanLabel">IBAN:</strong> <span id="ibanValue">IT60X0542811101000000123456</span></div>
       <div id="ibanName">Intestato a: Nome Cognome</div>
       <div id="ibanBank">Banca: Nome Banca</div>
-      <div id="ibanDesc" style="margin-top:8px; font-size:0.95em; color:#b0b0b0;">Causale: Donazione</div>
+      <div id="ibanDesc" style="margin-top:8px; color:#b0b0b0;">Causale: Donazione</div>
     </div>
   </div>
   <div class="container">
-    <h1 id="mainTitle">UNDER CONSTRUCTION</h1>
-    <div class="subtitle" id="subtitle">SITE NEARLY READY</div>
+    <h1 id="mainTitle">IN COSTRUZIONE</h1>
+    <div class="subtitle" id="subtitle">SITO QUASI PRONTO</div>
     <div class="progress-bar-bg">
       <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -186,8 +186,8 @@
       <span id="progressStart">0%</span>
       <span id="progressEnd">100%</span>
     </div>
-    <button class="notify-btn" id="notifyBtn">Notify Me!</button>
-    <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert('Grazie! Ti avviseremo via email.'); this.reset(); this.style.display='none'; document.getElementById('notifyBtn').style.display='inline-block';">
+    <button class="notify-btn" id="notifyBtn">Avvisami!</button>
+    <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert(msgThanks); this.reset(); this.style.display='none'; document.getElementById('notifyBtn').style.display='inline-block';">
       <input type="email" placeholder="Inserisci la tua email" required id="emailInput">
       <button class="submit-btn" type="submit" id="submitBtn">Invia</button>
     </form>
@@ -222,40 +222,63 @@
       notifyBtn.style.display = 'none';
     };
 
-    // Traduzione ITA/ENG
-    const langBtn = document.getElementById('langBtn');
-    let isEnglish = false;
-    langBtn.onclick = () => {
-      isEnglish = !isEnglish;
-      if (isEnglish) {
-        document.documentElement.lang = "en";
-        langBtn.textContent = "🇮🇹 Italiano";
-        document.getElementById('mainTitle').textContent = "UNDER CONSTRUCTION";
-        document.getElementById('subtitle').textContent = "SITE NEARLY READY";
-        document.getElementById('donateBtn').textContent = "💙 Donate Now";
-        document.getElementById('ibanValue').textContent = "GB12BARC20201530093459";
-        document.getElementById('ibanName').textContent = "Account holder: Name Surname";
-        document.getElementById('ibanBank').textContent = "Bank: Bank Name";
-        document.getElementById('ibanDesc').textContent = "Reason: Donation";
-        notifyBtn.textContent = "Notify Me!";
-        document.getElementById('emailInput').placeholder = "Enter your email";
-        document.getElementById('submitBtn').textContent = "Send";
-        document.getElementById('footerText').innerHTML = "&copy; 2024 - Site under construction.";
-      } else {
-        document.documentElement.lang = "it";
-        langBtn.textContent = "🇬🇧 English";
-        document.getElementById('mainTitle').textContent = "UNDER CONSTRUCTION";
-        document.getElementById('subtitle').textContent = "SITE NEARLY READY";
-        document.getElementById('donateBtn').textContent = "💙 Dona Ora";
-        document.getElementById('ibanValue').textContent = "IT60X0542811101000000123456";
-        document.getElementById('ibanName').textContent = "Intestato a: Nome Cognome";
-        document.getElementById('ibanBank').textContent = "Banca: Nome Banca";
-        document.getElementById('ibanDesc').textContent = "Causale: Donazione";
-        notifyBtn.textContent = "Notify Me!";
-        document.getElementById('emailInput').placeholder = "Inserisci la tua email";
-        document.getElementById('submitBtn').textContent = "Invia";
-        document.getElementById('footerText').innerHTML = "&copy; 2024 - Sito in costruzione.";
+    // Traduzioni centralizzate
+    const translations = {
+      it: {
+        langBtn: "🇬🇧 English",
+        mainTitle: "IN COSTRUZIONE",
+        subtitle: "SITO QUASI PRONTO",
+        donateBtn: "💙 Dona Ora",
+        ibanLabel: "IBAN:",
+        ibanValue: "IT60X0542811101000000123456",
+        ibanName: "Intestato a: Nome Cognome",
+        ibanBank: "Banca: Nome Banca",
+        ibanDesc: "Causale: Donazione",
+        notifyBtn: "Avvisami!",
+        emailPlaceholder: "Inserisci la tua email",
+        submitBtn: "Invia",
+        footerText: "&copy; 2024 - Sito in costruzione.",
+        msgThanks: "Grazie! Ti avviseremo via email."
+      },
+      en: {
+        langBtn: "🇮🇹 Italiano",
+        mainTitle: "UNDER CONSTRUCTION",
+        subtitle: "SITE NEARLY READY",
+        donateBtn: "💙 Donate Now",
+        ibanLabel: "IBAN:",
+        ibanValue: "GB12BARC20201530093459",
+        ibanName: "Account holder: Name Surname",
+        ibanBank: "Bank: Bank Name",
+        ibanDesc: "Reason: Donation",
+        notifyBtn: "Notify Me!",
+        emailPlaceholder: "Enter your email",
+        submitBtn: "Send",
+        footerText: "&copy; 2024 - Site under construction.",
+        msgThanks: "Thank you! We will notify you by email."
       }
+    };
+
+    let isEnglish = false;
+    let msgThanks = translations.it.msgThanks;
+
+    document.getElementById('langBtn').onclick = () => {
+      isEnglish = !isEnglish;
+      const lang = isEnglish ? "en" : "it";
+      document.documentElement.lang = lang;
+      document.getElementById('langBtn').textContent = translations[lang].langBtn;
+      document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
+      document.getElementById('subtitle').textContent = translations[lang].subtitle;
+      document.getElementById('donateBtn').textContent = translations[lang].donateBtn;
+      document.getElementById('ibanLabel').textContent = translations[lang].ibanLabel;
+      document.getElementById('ibanValue').textContent = translations[lang].ibanValue;
+      document.getElementById('ibanName').textContent = translations[lang].ibanName;
+      document.getElementById('ibanBank').textContent = translations[lang].ibanBank;
+      document.getElementById('ibanDesc').textContent = translations[lang].ibanDesc;
+      document.getElementById('notifyBtn').textContent = translations[lang].notifyBtn;
+      document.getElementById('emailInput').placeholder = translations[lang].emailPlaceholder;
+      document.getElementById('submitBtn').textContent = translations[lang].submitBtn;
+      document.getElementById('footerText').innerHTML = translations[lang].footerText;
+      msgThanks = translations[lang].msgThanks;
     };
   </script>
 </body>
