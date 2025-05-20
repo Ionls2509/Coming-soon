@@ -16,7 +16,7 @@
       --card-bg: rgba(30, 30, 40, 0.92);
       --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
       --main-padding: 32px;
-      --contrast: #fff;
+      --contrast: #f7f7f7;
       --contrast-secondary: #e0cfa9;
     }
     html, body { height: 100%; margin: 0; padding: 0; }
@@ -40,8 +40,23 @@
       backdrop-filter: blur(4px);
       background: rgba(30,30,40,0.2);
     }
-    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.2s cubic-bezier(.4,0,.2,1);}
-    .fade-in.visible { opacity: 1; transform: translateY(0);}
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(.4,0,.2,1), transform 1.2s cubic-bezier(.4,0,.2,1);
+      will-change: transform, opacity;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .lang-fade {
+      animation: langFade 0.5s;
+    }
+    @keyframes langFade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .card {
       background: var(--card-bg);
       box-shadow: var(--shadow);
@@ -52,6 +67,7 @@
       width: 90vw;
       text-align: center;
       backdrop-filter: blur(2px);
+      color: var(--contrast);
     }
     h1 {
       font-family: 'Playfair Display', serif;
@@ -202,19 +218,52 @@
     }
     .sticky-donate {
       position: fixed;
-      bottom: 120px;
-      right: 120px;
+      bottom: 32px;
+      right: 32px;
       z-index: 100;
-      box-shadow: 0 16px 64px rgba(255,255,255,0.5);
-      animation: bounce 1.5s infinite alternate;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(90deg, #d4af37 0%, #fffbe6 100%);
+      color: #222b3a;
+      border: none;
+      border-radius: 40px;
+      padding: 18px 38px 18px 22px;
+      font-size: 1.25rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: bold;
+      box-shadow: 0 8px 32px 0 rgba(212, 175, 55, 0.25), 0 2px 8px rgba(0,0,0,0.10);
+      cursor: pointer;
+      text-decoration: none;
+      transition: 
+        box-shadow 0.2s, 
+        transform 0.15s, 
+        background 0.2s, 
+        color 0.2s;
+      outline: none;
     }
-    @keyframes bounce {
-      0% { transform: translateY(0);}
-      100% { transform: translateY(-8px);}
+    .sticky-donate:hover, .sticky-donate:focus {
+      box-shadow: 0 0 16px 4px #ffe066, 0 8px 32px 0 rgba(212, 175, 55, 0.25);
+      transform: scale(1.06);
+      background: linear-gradient(90deg, #ffe066 0%, #d4af37 100%);
+      color: #003087;
+    }
+    .sticky-donate .paypal-logo {
+      width: 32px;
+      height: 32px;
+      margin-right: 4px;
+    }
+    @media (max-width: 600px) {
+      .card { padding: 16px; }
+      .sticky-donate { right: 10px; bottom: 10px; padding: 14px 22px 14px 14px; font-size: 1.05rem; }
+      .sticky-donate .paypal-logo { width: 24px; height: 24px; }
+      .lang-switch { left: 10px; top: 10px; }
+      .paypal-top { right: 10px; top: 10px; }
+      .badges { flex-direction: column; gap: 10px; }
     }
     .iban-box {
       background: rgba(30, 30, 40, 0.7);
-      color: #fff;
+      color: #f7f7f7;
       padding: 10px 14px;
       border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
@@ -270,20 +319,18 @@
       color: var(--contrast-secondary);
       font-size: 1rem;
     }
-    @media (max-width: 600px) {
-      .card { padding: 16px; }
-      .sticky-donate { right: 10px; bottom: 10px; }
-      .lang-switch { left: 10px; top: 10px; }
-      .paypal-top { right: 10px; top: 10px; }
-      .badges { flex-direction: column; gap: 10px; }
-    }
   </style>
 </head>
 <body>
   <div class="background">
     <picture>
       <source srcset="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60" media="(max-width: 600px)">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" alt="Sfondo natura" loading="lazy" width="1920" height="1080">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80"
+           alt="Sfondo natura"
+           loading="lazy"
+           width="1920"
+           height="1080"
+           fetchpriority="high">
     </picture>
   </div>
   <div class="background-blur"></div>
@@ -296,7 +343,10 @@
       PayPal
     </a>
   </div>
-  <a class="donate-btn sticky-donate" id="donateBtn" href="https://paypal.me/ionlisenco?country.x=MD&locale.x=en_US" target="_blank" aria-label="Dona con PayPal">💙 Dona Ora</a>
+  <a class="donate-btn sticky-donate" id="donateBtn" href="https://paypal.me/ionlisenco?country.x=MD&locale.x=en_US" target="_blank" aria-label="Dona con PayPal">
+    <svg class="paypal-logo" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#003087"/><text x="8" y="23" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">P</text></svg>
+    <span id="donateBtnText">💙 Dona Ora</span>
+  </a>
   <div class="container">
     <div class="card fade-in" id="mainCard">
       <h1 id="mainTitle">IN COSTRUZIONE</h1>
@@ -309,19 +359,20 @@
         <span id="progressEnd">100%</span>
       </div>
       <button class="notify-btn" id="notifyBtn" aria-label="Iscriviti per essere avvisato">Avvisami!</button>
-      <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert(msgThanks); this.reset(); this.style.display='none'; document.getElementById('notifyBtn').style.display='inline-block';">
+      <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); submitNotifyForm();">
         <input type="email" placeholder="Inserisci la tua email" required id="emailInput" aria-label="La tua email">
         <button class="submit-btn" type="submit" id="submitBtn" aria-label="Invia email">Invia</button>
       </form>
+      <div id="notifyAlert" role="alert" aria-live="polite" style="display:none; margin-top:10px; color:var(--gold); font-weight:bold;"></div>
       <div class="countdown" id="countdown"></div>
       <div class="launch-date" id="launchDate">1 Settembre 2025 alle 10:00</div>
     </div>
     <div class="card fade-in" id="ibanCard">
       <div class="iban-box" id="ibanBox">
-        <div><strong id="ibanLabel">IBAN:</strong> <span id="ibanValue">LT643250077383024467</span></div>
-        <div id="ibanName">Intestato a: Ion Lisenco</div>
-        <div id="ibanBank">Banca: Revolut Bank UAB</div>
-        <div id="ibanDesc" style="margin-top:8px; color:#b0b0b0;">Causale: Donazione</div>
+        <div><strong id="ibanLabel"></strong> <span id="ibanValue"></span></div>
+        <div id="ibanName"></div>
+        <div id="ibanBank"></div>
+        <div id="ibanDesc" style="margin-top:8px; color:#b0b0b0;"></div>
       </div>
       <div class="badges" id="badges">
         <span class="badge" aria-label="SSL Sicuro">
@@ -337,14 +388,10 @@
           PayPal Verified
         </span>
       </div>
-      <div class="testimonial" id="testimonial">
-        “Sicurezza, trasparenza e impegno: la nostra promessa in ogni donazione.”<br>
-      </div>
+      <div class="testimonial" id="testimonial"></div>
     </div>
   </div>
-  <div class="footer" id="footerText">
-    &copy; 2024 - Sito in costruzione.
-  </div>
+  <div class="footer" id="footerText"></div>
   <script defer>
     // Barra di caricamento dinamica
     let progress = 0;
@@ -372,6 +419,38 @@
       notifyBtn.style.display = 'none';
     };
 
+    // Funzione per invio email al backend
+    function submitNotifyForm() {
+      const email = document.getElementById('emailInput').value;
+      const alertDiv = document.getElementById('notifyAlert');
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alertDiv.textContent = msgThanks;
+          alertDiv.style.color = 'var(--gold)';
+          document.getElementById('notifyForm').reset();
+          document.getElementById('notifyForm').style.display = 'none';
+          document.getElementById('notifyBtn').style.display = 'inline-block';
+        } else {
+          alertDiv.textContent = data.error || 'Errore, riprova più tardi.';
+          alertDiv.style.color = 'red';
+        }
+        alertDiv.style.display = 'block';
+        setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
+      })
+      .catch(() => {
+        alertDiv.textContent = 'Errore di rete, riprova.';
+        alertDiv.style.color = 'red';
+        alertDiv.style.display = 'block';
+        setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
+      });
+    }
+
     // Traduzioni centralizzate
     const translations = {
       it: {
@@ -381,16 +460,15 @@
         donateBtn: "💙 Dona Ora",
         paypalBtn: "PayPal",
         ibanLabel: "IBAN:",
-        ibanValue: "IT60X0542811101000000123456",
-        ibanName: "Intestato a: Nome Cognome",
-        ibanBank: "Banca: Nome Banca",
+        ibanValue: "LT643250077383024467",
+        ibanName: "Intestato a: Ion Lisenco",
+        ibanBank: "Banca: Revolut Bank UAB",
         ibanDesc: "Causale: Donazione",
         notifyBtn: "Avvisami!",
         emailPlaceholder: "Inserisci la tua email",
         submitBtn: "Invia",
         footerText: "&copy; 2024 - Sito in costruzione.",
         msgThanks: "Grazie! Ti avviseremo via email.",
-        goalCounter: (raised, goal, percent) => `€${raised} raccolti di €${goal} (${percent}%)`,
         testimonial: `“Ho donato subito: progetto serio, trasparente e staff gentilissimo!”<br><b>— Luca, sostenitore</b>`,
         launchDate: "1 Settembre 2025 alle 10:00",
         countdown: (d, h, m) => `${d} giorni, ${h} ore, ${m} minuti al lancio`
@@ -403,33 +481,63 @@
         paypalBtn: "PayPal",
         ibanLabel: "IBAN:",
         ibanValue: "GB12BARC20201530093459",
-        ibanName: "Account holder: Name Surname",
-        ibanBank: "Bank: Bank Name",
+        ibanName: "Account holder: Ion Lisenco",
+        ibanBank: "Bank: Revolut Bank UAB",
         ibanDesc: "Reason: Donation",
         notifyBtn: "Notify Me!",
         emailPlaceholder: "Enter your email",
         submitBtn: "Send",
         footerText: "&copy; 2024 - Site under construction.",
         msgThanks: "Thank you! We will notify you by email.",
-        goalCounter: (raised, goal, percent) => `€${raised} raised of €${goal} (${percent}%)`,
         testimonial: `“I donated right away: serious project, transparent and very kind staff!”<br><b>— Luca, backer</b>`,
         launchDate: "September 1, 2025 at 10:00 AM",
         countdown: (d, h, m) => `${d} days, ${h} hours, ${m} minutes to launch`
       }
     };
 
+    // Salva e carica la lingua preferita
     let isEnglish = false;
     let msgThanks = translations.it.msgThanks;
     let lang = "it";
+    if (localStorage.getItem('lang')) {
+      lang = localStorage.getItem('lang');
+      isEnglish = lang === "en";
+      setTimeout(() => switchLanguage(false), 0);
+    }
 
     document.getElementById('langBtn').onclick = () => {
       isEnglish = !isEnglish;
       lang = isEnglish ? "en" : "it";
+      localStorage.setItem('lang', lang);
+      switchLanguage(true);
+    };
+
+    function switchLanguage(withAnim) {
       document.documentElement.lang = lang;
+      if (withAnim) {
+        document.getElementById('mainCard').classList.remove('visible');
+        document.getElementById('ibanCard').classList.remove('visible');
+        setTimeout(() => {
+          updateLangContent();
+          document.getElementById('mainCard').classList.add('lang-fade');
+          document.getElementById('ibanCard').classList.add('lang-fade');
+          setTimeout(() => {
+            document.getElementById('mainCard').classList.remove('lang-fade');
+            document.getElementById('ibanCard').classList.remove('lang-fade');
+            document.getElementById('mainCard').classList.add('visible');
+            document.getElementById('ibanCard').classList.add('visible');
+          }, 500);
+        }, 300);
+      } else {
+        updateLangContent();
+      }
+    }
+
+    function updateLangContent() {
       document.getElementById('langBtn').textContent = translations[lang].langBtn;
       document.getElementById('mainTitle').textContent = translations[lang].mainTitle;
       document.getElementById('subtitle').textContent = translations[lang].subtitle;
-      document.getElementById('donateBtn').textContent = translations[lang].donateBtn;
+      document.getElementById('donateBtnText').textContent = translations[lang].donateBtn;
       document.getElementById('paypalTopBtn').innerHTML = `
         <svg class="paypal-logo" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#003087"/><text x="8" y="23" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">P</text></svg>
         ${translations[lang].paypalBtn}
@@ -446,9 +554,8 @@
       msgThanks = translations[lang].msgThanks;
       document.getElementById('testimonial').innerHTML = translations[lang].testimonial;
       document.getElementById('launchDate').textContent = translations[lang].launchDate;
-      updateGoalCounter();
       updateCountdown();
-    };
+    }
 
     // Fade-in animazioni con IntersectionObserver
     const fadeEls = document.querySelectorAll('.fade-in');
@@ -460,6 +567,7 @@
       });
     }, { threshold: 0.2 });
     fadeEls.forEach(el => fadeObserver.observe(el));
+
     // Countdown localizzato
     const launchDate = new Date('2025-09-01T10:00:00+02:00');
     function updateCountdown() {
@@ -472,6 +580,9 @@
     }
     updateCountdown();
     setInterval(updateCountdown, 60000); // aggiorna ogni minuto
+
+    // Inizializza i testi all'avvio
+    updateLangContent();
   </script>
 </body>
 </html>
