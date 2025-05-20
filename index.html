@@ -308,7 +308,6 @@
         <span id="progressStart">0%</span>
         <span id="progressEnd">100%</span>
       </div>
-      <div class="goal-counter" id="goalCounter">€0 raccolti di €5000 (0%)</div>
       <button class="notify-btn" id="notifyBtn" aria-label="Iscriviti per essere avvisato">Avvisami!</button>
       <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); alert(msgThanks); this.reset(); this.style.display='none'; document.getElementById('notifyBtn').style.display='inline-block';">
         <input type="email" placeholder="Inserisci la tua email" required id="emailInput" aria-label="La tua email">
@@ -339,8 +338,7 @@
         </span>
       </div>
       <div class="testimonial" id="testimonial">
-        “Ho donato subito: progetto serio, trasparente e staff gentilissimo!”<br>
-        <b>— Luca, sostenitore</b>
+        “Sicurezza, trasparenza e impegno: la nostra promessa in ogni donazione.”<br>
       </div>
     </div>
   </div>
@@ -462,23 +460,6 @@
       });
     }, { threshold: 0.2 });
     fadeEls.forEach(el => fadeObserver.observe(el));
-
-    // Contatore obiettivo finanziario dinamico
-    let goal = 5000, raised = 0;
-    async function updateGoalCounter() {
-      try {
-        const res = await fetch('/api/summary');
-        const data = await res.json();
-        raised = data.raised || 0;
-        goal = data.goal || 5000;
-      } catch (e) {
-        raised = 0; goal = 5000;
-      }
-      const percent = Math.round((raised/goal)*100);
-      document.getElementById('goalCounter').textContent = translations[lang].goalCounter(raised, goal, percent);
-    }
-    updateGoalCounter();
-
     // Countdown localizzato
     const launchDate = new Date('2025-09-01T10:00:00+02:00');
     function updateCountdown() {
