@@ -2,9 +2,15 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Coming Soon - Under Construction</title>
+  <title id="pageTitle">Coming Soon - Under Construction</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Pagina in costruzione: sostienici con una donazione e ricevi un update esclusivo.">
+  <meta name="description" id="metaDescription" content="Pagina in costruzione: sostienici con una donazione e ricevi un update esclusivo.">
+  <meta name="keywords" content="coming soon, donazione, healthcircle, under construction, sito, lancio, email, notify">
+  <meta name="author" content="Ion Lisenco">
+  <meta property="og:title" id="ogTitle" content="Coming Soon - Under Construction">
+  <meta property="og:description" id="ogDescription" content="Pagina in costruzione: sostienici con una donazione e ricevi un update esclusivo.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png">
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" as="style" onload="this.rel='stylesheet'">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap" media="print" onload="this.media='all'">
   <noscript>
@@ -326,7 +332,7 @@
     <picture>
       <source srcset="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60" media="(max-width: 600px)">
       <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80"
-           alt="Sfondo natura"
+           alt="Paesaggio naturale con alberi e lago, sfondo rilassante per sito in costruzione"
            loading="lazy"
            width="1920"
            height="1080"
@@ -359,8 +365,11 @@
         <span id="progressEnd">100%</span>
       </div>
       <button class="notify-btn" id="notifyBtn" aria-label="Iscriviti per essere avvisato">Avvisami!</button>
-      <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); submitNotifyForm();">
-        <input type="email" placeholder="Inserisci la tua email" required id="emailInput" aria-label="La tua email">
+      <form class="notify-form" id="notifyForm" onsubmit="event.preventDefault(); submitNotifyForm();" aria-label="Modulo per essere avvisato via email">
+        <input type="email" placeholder="Inserisci la tua email" required id="emailInput" aria-label="La tua email" autocomplete="email">
+        <label style="font-size:0.95rem; color:#e0cfa9; margin-top:4px; display:flex; align-items:center; gap:6px;">
+          <input type="checkbox" id="privacyCheck" required style="margin-right:6px;"> Accetto la <a href="#privacy" style="color:var(--gold);text-decoration:underline;" tabindex="0">Privacy Policy</a>
+        </label>
         <button class="submit-btn" type="submit" id="submitBtn" aria-label="Invia email">Invia</button>
       </form>
       <div id="notifyAlert" role="alert" aria-live="polite" style="display:none; margin-top:10px; color:var(--gold); font-weight:bold;"></div>
@@ -392,6 +401,13 @@
     </div>
   </div>
   <div class="footer" id="footerText"></div>
+  <div id="privacy" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#222b3a; color:#fff; padding:32px; border-radius:16px; max-width:400px; margin:auto; position:relative;">
+      <button onclick="document.getElementById('privacy').style.display='none'" style="position:absolute; top:10px; right:10px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+      <h2 style="color:var(--gold);">Privacy Policy</h2>
+      <p style="font-size:0.98rem;">La tua email verrà utilizzata solo per notificarti il lancio del sito. Non verrà condivisa con terzi. Puoi richiedere la cancellazione in qualsiasi momento.</p>
+    </div>
+  </div>
   <script defer>
     // Barra di caricamento dinamica
     let progress = 0;
@@ -411,18 +427,44 @@
     }
     animateProgress();
 
+    // Mostra privacy policy popup
+    document.querySelectorAll('a[href="#privacy"]').forEach(el => {
+      el.onclick = (e) => {
+        e.preventDefault();
+        document.getElementById('privacy').style.display = 'flex';
+        document.getElementById('privacy').focus();
+      };
+    });
+
     // Notify Me form
     const notifyBtn = document.getElementById('notifyBtn');
     const notifyForm = document.getElementById('notifyForm');
     notifyBtn.onclick = () => {
       notifyForm.style.display = 'flex';
       notifyBtn.style.display = 'none';
+      document.getElementById('emailInput').focus();
     };
+
+    // Funzione per sanitizzare l'email
+    function sanitizeEmail(email) {
+      return email.replace(/[^a-zA-Z0-9@._+-]/g, '').trim();
+    }
 
     // Funzione per invio email al backend
     function submitNotifyForm() {
-      const email = document.getElementById('emailInput').value;
+      const emailInput = document.getElementById('emailInput');
+      const email = sanitizeEmail(emailInput.value);
       const alertDiv = document.getElementById('notifyAlert');
+      const submitBtn = document.getElementById('submitBtn');
+      if (!document.getElementById('privacyCheck').checked) {
+        alertDiv.textContent = lang === 'it' ? 'Devi accettare la privacy policy.' : 'You must accept the privacy policy.';
+        alertDiv.style.color = 'red';
+        alertDiv.style.display = 'block';
+        setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = 0.6;
       fetch('/api/notify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -437,17 +479,21 @@
           document.getElementById('notifyForm').style.display = 'none';
           document.getElementById('notifyBtn').style.display = 'inline-block';
         } else {
-          alertDiv.textContent = data.error || 'Errore, riprova più tardi.';
+          alertDiv.textContent = data.error || (lang === 'it' ? 'Errore, riprova più tardi.' : 'Error, try again later.');
           alertDiv.style.color = 'red';
         }
         alertDiv.style.display = 'block';
         setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = 1;
       })
       .catch(() => {
-        alertDiv.textContent = 'Errore di rete, riprova.';
+        alertDiv.textContent = lang === 'it' ? 'Errore di rete, riprova.' : 'Network error, try again.';
         alertDiv.style.color = 'red';
         alertDiv.style.display = 'block';
         setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = 1;
       });
     }
 
@@ -471,6 +517,7 @@
         msgThanks: "Grazie! Ti avviseremo via email.",
         testimonial: `“Sicurezza, trasparenza e impegno: la nostra promessa in ogni donazione.”<br>`,
         launchDate: "1 Settembre 2025 alle 10:00",
+        privacy: "La tua email verrà utilizzata solo per notificarti il lancio del sito. Non verrà condivisa con terzi. Puoi richiedere la cancellazione in qualsiasi momento.",
         countdown: (d, h, m) => `${d} giorni, ${h} ore, ${m} minuti al lancio`
       },
       en: {
@@ -491,6 +538,7 @@
         msgThanks: "Thank you! We will notify you by email.",
         testimonial: `“Security, transparency and commitment: our promise in every donation.”<br>`,
         launchDate: "September 1, 2025 at 10:00 AM",
+        privacy: "Your email will only be used to notify you about the site launch. It will not be shared with third parties. You can request deletion at any time.",
         countdown: (d, h, m) => `${d} days, ${h} hours, ${m} minutes to launch`
       }
     };
@@ -512,8 +560,17 @@
       switchLanguage(true);
     };
 
+    // Aggiorna titolo e meta tag in base alla lingua
+    function updateMetaTags() {
+      document.getElementById('pageTitle').textContent = lang === 'it' ? 'Coming Soon - In Costruzione' : 'Coming Soon - Under Construction';
+      document.getElementById('metaDescription').setAttribute('content', translations[lang].subtitle);
+      document.getElementById('ogTitle').setAttribute('content', lang === 'it' ? 'Coming Soon - In Costruzione' : 'Coming Soon - Under Construction');
+      document.getElementById('ogDescription').setAttribute('content', translations[lang].subtitle);
+    }
+
     function switchLanguage(withAnim) {
       document.documentElement.lang = lang;
+      updateMetaTags();
       if (withAnim) {
         document.getElementById('mainCard').classList.remove('visible');
         document.getElementById('ibanCard').classList.remove('visible');
@@ -554,6 +611,8 @@
       msgThanks = translations[lang].msgThanks;
       document.getElementById('testimonial').innerHTML = translations[lang].testimonial;
       document.getElementById('launchDate').textContent = translations[lang].launchDate;
+      // Aggiorna privacy policy
+      document.querySelector('#privacy p').textContent = translations[lang].privacy;
       updateCountdown();
     }
 
@@ -568,7 +627,7 @@
     }, { threshold: 0.2 });
     fadeEls.forEach(el => fadeObserver.observe(el));
 
-    // Countdown localizzato
+    // Countdown localizzato e accessibile
     const launchDate = new Date('2025-09-01T10:00:00+02:00');
     function updateCountdown() {
       const now = new Date();
@@ -576,13 +635,16 @@
       let days = Math.floor(diff / (1000*60*60*24));
       let hours = Math.floor((diff / (1000*60*60)) % 24);
       let mins = Math.floor((diff / (1000*60)) % 60);
-      document.getElementById('countdown').textContent = translations[lang].countdown(days, hours, mins);
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.textContent = translations[lang].countdown(days, hours, mins);
+      countdownEl.setAttribute('aria-live', 'polite');
     }
     updateCountdown();
     setInterval(updateCountdown, 60000); // aggiorna ogni minuto
 
     // Inizializza i testi all'avvio
     updateLangContent();
+    updateMetaTags();
   </script>
 </body>
 </html>
