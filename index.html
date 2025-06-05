@@ -465,7 +465,7 @@
       }
       submitBtn.disabled = true;
       submitBtn.style.opacity = 0.6;
-      fetch('https://docs.google.com/spreadsheets/d/1KNIhnamN13MV_BBaPqqGdoEKPYLOaD6G12SrlShhCqM/edit?usp=sharing'), {
+      fetch('https://script.google.com/macros/s/IL_TUO_URL_WEBAPP/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -515,7 +515,7 @@
         submitBtn: "Invia",
         footerText: "&copy; 2024 - Sito in costruzione.",
         msgThanks: "Grazie! Ti avviseremo via email.",
-        testimonial: `“Sicurezza, trasparenza e impegno: la nostra promessa in ogni donazione.”<br>`,
+        testimonial: `"Sicurezza, trasparenza e impegno: la nostra promessa in ogni donazione."<br>`,
         launchDate: "1 Settembre 2025 alle 10:00",
         privacy: "La tua email verrà utilizzata solo per notificarti il lancio del sito. Non verrà condivisa con terzi. Puoi richiedere la cancellazione in qualsiasi momento.",
         countdown: (d, h, m) => `${d} giorni, ${h} ore, ${m} minuti al lancio`
@@ -536,7 +536,7 @@
         submitBtn: "Send",
         footerText: "&copy; 2024 - Site under construction.",
         msgThanks: "Thank you! We will notify you by email.",
-        testimonial: `“Security, transparency and commitment: our promise in every donation.”<br>`,
+        testimonial: `"Security, transparency and commitment: our promise in every donation."<br>`,
         launchDate: "September 1, 2025 at 10:00 AM",
         privacy: "Your email will only be used to notify you about the site launch. It will not be shared with third parties. You can request deletion at any time.",
         countdown: (d, h, m) => `${d} days, ${h} hours, ${m} minutes to launch`
